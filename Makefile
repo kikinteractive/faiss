@@ -89,4 +89,13 @@ py:
 	$(MAKE) -C python build
 
 
-.PHONY: all clean default demos install installdirs py test uninstall
+#############################
+# Java
+
+java:
+	${MAKE} -C java build
+
+
+
+
+.PHONY: all clean default demos install installdirs py java test uninstall

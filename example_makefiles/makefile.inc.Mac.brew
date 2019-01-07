@@ -77,7 +77,7 @@ LIBS     += -framework Accelerate
 
 
 ##########################################################################
-# SWIG and Python flags
+# SWIG, Python, and Java flags
 ##########################################################################
 
 # SWIG executable. This should be at least version 3.x
@@ -85,12 +85,24 @@ LIBS     += -framework Accelerate
 
 SWIG = /usr/local/bin/swig
 
+# SWIG v4.x executable. This is required to support Java wrapping of
+# Faiss code. This version will likely need to be built from source
+# until v4.x has been released.
+
+SWIG4 = /path/to/built/swig/4/executable
+
 # The Python include directories for the current python executable
 
-PYTHON_INC=$(shell python -c "import distutils.sysconfig; print(distutils.sysconfig.get_python_inc())")
-NUMPY_INC=$(shell python -c "import numpy ; print(numpy.get_include())")
-PYTHONCFLAGS=-I${PYTHON_INC} -I${NUMPY_INC}
-PYTHONLIB=-lpython
+PYTHON_INC      = $(shell python -c "import distutils.sysconfig; print(distutils.sysconfig.get_python_inc())")
+NUMPY_INC       = $(shell python -c "import numpy ; print(numpy.get_include())")
+PYTHONCFLAGS    = -I${PYTHON_INC} -I${NUMPY_INC}
+PYTHONLIB       = -lpython
+
+# The Java include directories for the current java executable
+
+JAVA_INC        = $(echo $(/usr/libexec/java_home))
+JAVACFLAGS      = -I/System/Library/Frameworks/JavaVM.framework/Headers/ -fno-strict-aliasing
+JAVASWIGFLAGS   = -package com.github.facebookresearch.faiss -outdir ./src/com/github/facebookresearch/faiss
 
 ##########################################################################
 # Faiss GPU
